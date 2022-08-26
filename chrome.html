@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en-us";>
+<head>
+    <title>Navigation Bar</title>
+    <link rel="stylesheet" href="style.css"; 
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    
+    
+</head>
+<body>
+    <py-script>
+        from bs4 import BeautifulSoup
+        import requests
+        import re
+        import socket
+        import json
+        pages_data = [0]
+        list=[]
+        faceurl=[]
+        instaurl=[]
+        youtubeurl=[]
+        twitterurl=[]
+        def get_pages(params):
+            pages = int(params+"0")
+            for i in range(1, pages):
+                if i % 10 == 0:
+                    pages_data.append(i)
+        
+        
+        def get_dork(params):
+            headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'}
+            for i in pages_data:
+                url = "https://www.google.com/search?q=" + \
+                    params + "&start=" + str(i)
+                dork = BeautifulSoup(requests.get(url, headers=headers).text, "html.parser")
+                for j in dork.find_all('div', attrs={'class': 'g'}):
+                    result = j.find('a', href=True)['href']
+                    list.append(result)
+        def get_dork_face(params):
+            headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'}
+            for i in pages_data:
+                url = "https://www.google.com/search?q=" + \
+                    params + "&start=" + str(i)
+                dork = BeautifulSoup(requests.get(url, headers=headers).text, "html.parser")
+                for j in dork.find_all('div', attrs={'class': 'g'}):
+                    result = j.find('a', href=True)['href']
+                    faceurl.append(result)
+                return faceurl[0]
+        def get_dork_insta(params):
+            headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'}
+            for i in pages_data:
+                url = "https://www.google.com/search?q=" + \
+                    params + "&start=" + str(i)
+                dork = BeautifulSoup(requests.get(url, headers=headers).text, "html.parser")
+                for j in dork.find_all('div', attrs={'class': 'g'}):
+                    result = j.find('a', href=True)['href']
+                    instaurl.append(result)
+                return instaurl[0]
+        def get_dork_twitter(params):
+            headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'}
+            for i in pages_data:
+                url = "https://www.google.com/search?q=" + \
+                    params + "&start=" + str(i)
+                dork = BeautifulSoup(requests.get(url, headers=headers).text, "html.parser")
+                for j in dork.find_all('div', attrs={'class': 'g'}):
+                    result = j.find('a', href=True)['href']
+                    twitterurl.append(result)
+                return twitterurl[0]
+        def get_dork_youtube(params):
+            headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'}
+            for i in pages_data:
+                url = "https://www.google.com/search?q=" + \
+                    params + "&start=" + str(i)
+                dork = BeautifulSoup(requests.get(url, headers=headers).text, "html.parser")
+                for j in dork.find_all('div', attrs={'class': 'g'}):
+                    result = j.find('a', href=True)['href']
+                    youtubeurl.append(result)
+                return youtubeurl[0]
+        pages = '1'
+        dork = input("Input Data : ")
+        dork="site: " + dork
+        get_pages(pages)
+        get_dork(dork)
+        
+        print(list)
+        
+        
+        
+        def facebook():
+            if fb is None:
+                return get_dork_face(dork+"facebook")
+            return fb['href']
+        
+        
+        def instagram():
+            if insta is None:
+                return get_dork_insta(dork+"instagram")
+            return insta['href']
+        
+        
+        def twitter():
+            if twt is None:
+                return get_dork_twitter(dork + "twitter")
+            return twt['href']
+        
+        
+        def youtube():
+            if y is None:
+                return get_dork_youtube(dork+"youtube")
+            return y['href']
+        
+        
+        headers = {
+            'User Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'}
+        url = list[0]
+        r = requests.get(url, headers)
+        soup = BeautifulSoup(r.content,'html.parser')
+        title = soup.find("title").text
+        fb = soup.find('a', {'href': re.compile("https?://(www\\.)?facebook\\.com/[^(share)]?(\\w+\\.?)+")})
+        insta = soup.find('a', {'href': re.compile("https?://(www\\.)?instagram\\.com/[^(share)]?(\\w+\\.?)+")})
+        twt = soup.find('a', {'href': re.compile("https?://(www\\.)?twitter\\.com/[^(share)]?(\\w+\\.?)+")})
+        y = soup.find('a', {'href': re.compile("https?://(www\\.)?youtube\\.com/[^(share)]?(\\w+\\.?)+")})
+        fab = facebook()
+        i = instagram()
+        t = twitter()
+        y = youtube()
+        
+        print("TITLE:")
+        print(title)
+        print("LINKS:")
+        print(list[0])
+        print(fab)
+        print(i)
+        print(t)
+        print(y)    
+    </py-script>
+    <div class="search">
+        
+        <p>Enter a news website you want to search:</p>
+        <div style = "position:relative; right:100px; top:2px">
+    <form class="example" action="/action_page.php" style="margin:auto;max-width:300px"><br>
+      <input type="text" placeholder="Search.." name="search2"><br>
+   <br><input type="submit" value="SUBMIT"></button>
+</form>
+
+</div>
+<br>
+<div class="card">
+    <div class="img-bx">
+<img src="download.png"alt="img"/>
+    </div>
+    <div class="content">
+        <div class="detail">
+            <h2>News18<br/></h2>
+            <p>editor@news18.com</p>
+            <p>+91-120-4341818</p>
+            <ul class="sci">
+                <li>
+                    
+                    <a href="https://m.facebook.com/cnnnews18/"><img src="facebook.png" style="width:15px;height:15px"/><i class="fa-brands fa-facebook"></i>
+            </a>
+                </li>
+                <li>
+                    <a href="https://twitter.com/CNNnews18"><img src="twitter.png" style="width:15px;height:15px"/><i class="fab fa-twitter"></i></a>
+                </li>
+                <li>
+                    <a href="https://youtube.com/c/cnnnews18"><img src="https://i.pinimg.com/originals/6a/42/04/6a4204f04496559aa27101d25983d0f0.png" style="width:15px;height:15px"/><i class="fab fa-linkedin-in"></i>
+            </a>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/cnnnews18/"><img src="instagram.png" style="width:15px;height:15px"/><i class="fab fa-instagram"></i>
+            </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>
